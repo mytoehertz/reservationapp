@@ -26,12 +26,12 @@
         <br />
 
         <div class="text-center">
-          <a href="/tables"
+          <a href="/view.html"
             ><button type="button" class="btn btn-lg btn-primary">
               <span class="glyphicon glyphicon-list-alt"></span> View Tables
             </button></a
           >
-          <a href="/reserve"
+          <a href="/reservation.html"
             ><button type="button" class="btn btn-lg btn-danger">
               <span class="glyphicon glyphicon-credit-card"></span> Make
               Reservation
@@ -49,5 +49,55 @@
         </div>
       </footer>
     </div>
+
+    <script>
+    // Dependencies
+// ===========================================================
+var express = require('express');
+
+var app = express();
+var PORT = 3000;
+
+// Data
+// ===========================================================
+var reservation = [
+ 
+];
+
+// Routes
+// ===========================================================
+app.get('/', function(req, res) {
+  res.send('Welcome to the reservations page!');
+});
+
+// Displays all characters
+app.get('/api/characters', function(req, res) {
+  return res.json(characters);
+});
+
+// Displays a single character, or shows "No character found"
+app.get('/api/characters/:character', function(req, res) {
+  // Grab the selected parameter
+  var chosen = req.params.character;
+  console.log(chosen);
+
+  // Filter to show only the selected character
+  for (var i = 0; i < characters.length; i++) {
+    if (chosen === characters[i].routeName) {
+      return res.json(characters[i]);
+    }
+  }
+
+  // Otherwise display "No character found"
+  return res.send('No character found');
+});
+
+// Listener
+// ===========================================================
+app.listen(PORT, function() {
+  console.log('App listening on PORT ' + PORT);
+});
+    
+    </script>
   </body>
 </html>
