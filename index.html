@@ -70,26 +70,39 @@ app.get('/', function(req, res) {
   res.send('Welcome to the reservations page!');
 });
 
-// Displays all characters
-app.get('/api/characters', function(req, res) {
-  return res.json(characters);
+// Displays all reservations
+app.get('/api/reservation', function(req, res) {
+  return res.json(reservation);
 });
 
-// Displays a single character, or shows "No character found"
-app.get('/api/characters/:character', function(req, res) {
+// Displays a single reservation, or shows "No reservation found"
+app.get('/api/reservation/:reservation', function(req, res) {
   // Grab the selected parameter
-  var chosen = req.params.character;
+  var chosen = req.params.reservation;
   console.log(chosen);
 
-  // Filter to show only the selected character
-  for (var i = 0; i < characters.length; i++) {
-    if (chosen === characters[i].routeName) {
-      return res.json(characters[i]);
+  // Filter to show only the selected reservation
+  for (var i = 0; i < reservation.length; i++) {
+    if (chosen === reservation[i].routeName) {
+      return res.json(reservation[i]);
     }
   }
 
-  // Otherwise display "No character found"
-  return res.send('No character found');
+  // Otherwise display "No reservation found"
+  return res.send('No reservation found');
+});
+
+// Create New Reservation - takes in JSON input
+app.post("/api/reservation", function(req, res) {
+  // req.body hosts is equal to the JSON post sent from the user
+  // This works because of our body parsing middleware
+  var newReservation = req.body;
+  // Using a RegEx Pattern to remove spaces from newCharacter
+  // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+  newReservation.routeName = newReservation.name.replace(/\s+/g, "").toLowerCase();
+  console.log(newReservation);
+  reservation.push(newReservation);
+  res.json(newReservation);
 });
 
 // Listener
